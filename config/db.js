@@ -1,4 +1,4 @@
-const mongoose = reuire("mongoose");
+const mongoose = require("mongoose");
 
 const localUrl = process.env.MONGO_URI_LOCAL;
 

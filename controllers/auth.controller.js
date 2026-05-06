@@ -30,15 +30,19 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid message" });
+      return res.status(400).json({ message: "Invalid email" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ mesage: "invalid credentials" });
+      return res.status(400).json({ message: "invalid credentials" });
     }
-    const token = jwt.sign({ _id: user._id }, "secretkey", { expiresIn: "1h" });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = { register, login };
